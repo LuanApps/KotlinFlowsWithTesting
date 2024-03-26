@@ -24,7 +24,7 @@ class MainViewModelTest {
     fun `countDownFlow, properly counts down from 5 to 0`() = runBlocking {
         viewModel.countDownFlow.test {
             for(i in 5 downTo 0) {
-                testDispatchers.testDispatcher.advanceTimeBy(1000L)
+                testDispatchers.testDispatcher.scheduler.apply { advanceTimeBy(1000L); runCurrent() }
                 val emission = awaitItem()
                 assertThat(emission).isEqualTo(i)
             }
